@@ -17,6 +17,7 @@ model User {
   role                String               @default("user")
   accounts            Account[]
   sessions            Session[]
+  templates           EmailTemplate[]
   passwordResetTokens PasswordResetToken[]
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
@@ -69,6 +70,21 @@ model PasswordResetToken {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  subject   String   @default("New Template")
+  content   String   @default("{\"blocks\":[{\"type\":\"heading\",\"text\":\"Welcome\"},{\"type\":\"paragraph\",\"text\":\"Start editing your template.\"}]}")
+  html      String   @default("<h1>Welcome</h1><p>Start editing your template.</p>")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

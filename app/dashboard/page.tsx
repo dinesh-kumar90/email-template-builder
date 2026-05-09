@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
@@ -15,6 +16,11 @@ export default async function DashboardPage() {
       <h1 className="text-2xl font-semibold">Dashboard</h1>
       <p>Authenticated as: {session.user?.email}</p>
       <p>Role: {session.user?.role}</p>
+      <div className="pt-2">
+        <Link href="/dashboard/templates" className="rounded bg-black px-4 py-2 text-white">
+          Open Template Builder
+        </Link>
+      </div>
       <form action="/api/auth/signout" method="POST" className="mt-2">
         <button type="submit" className="rounded border px-3 py-2">
           Sign Out
